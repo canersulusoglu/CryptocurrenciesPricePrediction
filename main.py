@@ -14,6 +14,6 @@ if __name__ == '__main__':
         forecast=30,
         load_model=True
     )
-    #model.trainModel(epochs=100)
-    #model.saveModel()
+    model.trainModel(epochs=100)
+    model.saveModel()
     predicted_values = model.predictModel(plot=True)
