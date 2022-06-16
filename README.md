@@ -24,7 +24,7 @@ A Neural Network LSTM model that predicts price of cryptocurrencies.
 ### Settings The Trained Model
 
 - Currenct = BTC-USD
-- Epoch Size = 100
+- Epoch Size = 10
 - Lookback = 60
 - Forecast = 30
 
@@ -32,4 +32,4 @@ A Neural Network LSTM model that predicts price of cryptocurrencies.
 |-----------------------------------------------|
 | <img width="100%" src="./results/BTC-USD/60-30/lossPlot.png"> |
 | <img width="100%" src="./results/BTC-USD/60-30/predictPlot.png"> |
-| <img width="100%" src="./results/BTC-USD/60-30/Figure_3.png"> |
+| <img width="100%" src="./results/BTC-USD/60-30/Figure_1.png"> |
