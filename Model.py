@@ -2,6 +2,7 @@ from DatasetLoader import DatasetLoader
 from keras.models import Sequential, load_model
 from keras.layers import Dense
 from keras.layers import LSTM
+from keras.callbacks import ModelCheckpoint
 from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 import pandas as pd
@@ -19,12 +20,19 @@ class Model():
         self.training_data['Close'] = self.training_data['Close'].fillna(0)
         self.scaler = MinMaxScaler(feature_range=(0, 1))
         self.training_data = self.scaler.fit_transform(self.training_data)
-        self.model_save_dir = os.path.dirname(os.path.realpath(__file__)) + "/saved_model/" + self.dataset_loader.currency + "/" + str(lookback) + "-" + str(forecast)
+        self.model_checkpoint_dir = os.path.dirname(os.path.realpath(__file__)) + "/checkpoint/" + self.dataset_loader.currency + "/" + str(lookback) + "-" + str(forecast)
         self.results_dir = os.path.dirname(os.path.realpath(__file__)) + "/results/" + self.dataset_loader.currency + "/" + str(lookback) + "-" + str(forecast)
-        if(not os.path.exists(self.model_save_dir)):
-            os.makedirs(self.model_save_dir)
+        if(not os.path.exists(self.model_checkpoint_dir)):
+            os.makedirs(self.model_checkpoint_dir)
         if(not os.path.exists(self.results_dir)):
             os.makedirs(self.results_dir)
+        self.model_checkpoint = ModelCheckpoint(
+            filepath=self.model_checkpoint_dir + "/model.h5",
+            monitor='val_loss',
+            mode='min',
+            save_best_only=True,
+            verbose=True
+        )
         self.model = self.__createModel()
 
     def __createTrainSet(self):
@@ -41,7 +49,7 @@ class Model():
     def __createModel(self):
         model = None
         if self.load_model:
-            model = load_model(self.model_save_dir)
+            model = load_model(self.model_checkpoint_dir + "/model.h5")
         else:
             model = Sequential()
             model.add(LSTM(units=50, input_shape=(self.lookback , 1), return_sequences=True, activation="tanh"))
@@ -64,7 +72,8 @@ class Model():
             y_train,
             batch_size=batch_size,
             epochs=epochs,
-            validation_split=validation_split
+            validation_split=validation_split,
+            callbacks=[self.model_checkpoint]
         )
         loss = history.history['loss']
         val_loss = history.history['val_loss']
@@ -124,7 +133,3 @@ class Model():
             fig.savefig(self.results_dir + "/predictPlot.png")
             # Show figure in window
             plt.show()
-
-    def saveModel(self):
-        self.model.save(self.model_save_dir)
-
