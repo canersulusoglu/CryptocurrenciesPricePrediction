@@ -4,7 +4,6 @@ A Neural Network LSTM model that predicts price of cryptocurrencies.
 Coded by [Caner Sülüşoğlu](https://www.linkedin.com/in/caner-s%C3%BCl%C3%BC%C5%9Fo%C4%9Flu-84b5b319b/) and [Metin Cem Demirdaş](https://www.linkedin.com/in/cem-demirda%C5%9F-630b911b9/)
 
 ## Setup Environment
----------------------
 
 > To create a python virtual environment.
 > 
@@ -24,8 +23,6 @@ Coded by [Caner Sülüşoğlu](https://www.linkedin.com/in/caner-s%C3%BCl%C3%BC%
 
 
 ## Arguments Informations
-
----------------------
 
 Using `-h` or `--help` keyword, informations about arguments will be shown.
 
